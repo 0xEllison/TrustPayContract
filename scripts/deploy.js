@@ -13,8 +13,6 @@ async function main() {
   console.log("TrustPay deployed to:", trustPay.address);
 
 }
-
-
 main()
   .then(() => process.exit(0))
   .catch(error => {
