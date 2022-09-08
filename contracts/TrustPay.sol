@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.7.0 <0.9.0;
-
+pragma solidity >=0.8.0 <0.9.0;
+pragma experimental ABIEncoderV2;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -108,17 +108,18 @@ contract TrustPay is BlackList{
         Trade memory trade = trades[_id];
         return (trade.creator,trade.payer,trade.amount,trade.status);
     }
-    // function getTrades() public view returns(Trade[] memory){
-    //     require(!isBlackListed[msg.sender],"address has been blocked!");
+    // function getTrades() public returns(Trade[] memory){
+    //     // require(!isBlackListed[msg.sender],"address has been blocked!");
     //     Trade memory _trade = trades[0];
-    //     Trade[] memory list = new Trade[](1);
-    //     while (_trade.creator != msg.sender) {
-    //         list.push(_trade);
-    //     }
-    //     return list;
+    //     // Trade[] memory list = new Trade[](1);
+    //     // while (_trade.creator != msg.sender) {
+    //     //     list.push(_trade);
+    //     // }
+    //     // return list;
     //     //Trade memory trade = trades;
     //     // Trade[] memory _trades = new Trade[](3);
     //     // return _trades;
+    //     return [trades[0],trades[]];
     // }
     //执行订单（付款到本合约暂存）
     //@param _id 订单ID
