@@ -60,12 +60,15 @@ contract TrustPay is BlackList{
     uint basisPointsRate = 0;
     uint maximumFee = 0;
 
+    address public erc20 = address(0);
     
     mapping(uint256 => Trade) trades;
     mapping(address => mapping(uint256 => Trade)) tradesPool;
     uint256 tradeCounter;
 
-    constructor(){}
+    constructor(address _erc20){
+        erc20 = _erc20;
+    }
     /*Order结构体 规定了订单的基础结构*/
     struct Trade{
         address creator;//创建者，即收款者
@@ -127,7 +130,7 @@ contract TrustPay is BlackList{
         require(!isBlackListed[msg.sender],"address has been blocked!");
         Trade memory trade = trades[_id];
         require(trade.status == 1, "Trade is not Open.");
-        IERC20 testToken = IERC20(address(0x5D2aB2759bD686255A1DE02A6ffe1C5F8dD03Ac4));
+        IERC20 testToken = IERC20(erc20);
         testToken.transferFrom(msg.sender,address(this),trade.amount);
         trade.status = 2;
         trade.payer = msg.sender;
@@ -159,7 +162,7 @@ contract TrustPay is BlackList{
         require(trade.status == 2 ,
         "Trade is not Exec.");
 
-        IERC20 testToken = IERC20(address(0x5D2aB2759bD686255A1DE02A6ffe1C5F8dD03Ac4));
+        IERC20 testToken = IERC20(erc20);
 
         uint fee = (trade.amount.mul(basisPointsRate)).div(10000);
         if (fee > maximumFee) {
