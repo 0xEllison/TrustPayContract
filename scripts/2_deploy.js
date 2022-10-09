@@ -7,11 +7,10 @@
 const hre = require("hardhat");
 
 async function main() {
-
-  const TrustPay = await hre.ethers.getContractFactory("TrustPay");
-  const trustPay = await TrustPay.deploy();
-  console.log("TrustPay deployed to:", trustPay.address);
-
+  
+    const TrustPay = await hre.ethers.getContractFactory("TrustPay");
+    const trustPay = await TrustPay.deploy("0xbeEf4e5ad55d19526E7f99c56E59C9355E59e328");
+    console.log("TrustPay deployed to:", trustPay.address);
 }
 main()
   .then(() => process.exit(0))

@@ -60,10 +60,9 @@ contract TrustPay is BlackList{
     uint basisPointsRate = 0;
     uint maximumFee = 0;
 
-    address public erc20 = address(0);
+    address erc20 = address(0);
     
     mapping(uint256 => Trade) trades;
-    mapping(address => mapping(uint256 => Trade)) tradesPool;
     uint256 tradeCounter;
 
     constructor(address _erc20){
@@ -75,7 +74,7 @@ contract TrustPay is BlackList{
         address payer;//付款者，默认为0x0
         uint256 amount;//金额
         uint verify;//提款验证码
-        uint8 status; // 1：Open,:2：Executed,:0：Cancelled, 3:Done
+        uint8 status; // 1：Open,2：Executed,3:Done
         
     }
     //生成随机数
@@ -111,19 +110,7 @@ contract TrustPay is BlackList{
         Trade memory trade = trades[_id];
         return (trade.creator,trade.payer,trade.amount,trade.status);
     }
-    // function getTrades() public returns(Trade[] memory){
-    //     // require(!isBlackListed[msg.sender],"address has been blocked!");
-    //     Trade memory _trade = trades[0];
-    //     // Trade[] memory list = new Trade[](1);
-    //     // while (_trade.creator != msg.sender) {
-    //     //     list.push(_trade);
-    //     // }
-    //     // return list;
-    //     //Trade memory trade = trades;
-    //     // Trade[] memory _trades = new Trade[](3);
-    //     // return _trades;
-    //     return [trades[0],trades[]];
-    // }
+ 
     //执行订单（付款到本合约暂存）
     //@param _id 订单ID
     function executeTrade(uint256 _id) public{
@@ -174,7 +161,8 @@ contract TrustPay is BlackList{
         
         trade.status = 3;
         trades[_id] = trade;
-        
+        // delete trades[_id];
+        // tradeCounter -= 1;
         emit TradeStatusChange(trade.creator,trade.payer,_id,trade.amount,3);
     }
 
@@ -191,6 +179,5 @@ contract TrustPay is BlackList{
 
         emit Params(basisPointsRate, maximumFee);
     }
-    
     
 }

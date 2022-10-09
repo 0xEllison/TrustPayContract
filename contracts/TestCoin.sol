@@ -6,7 +6,11 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract TestCoin is ERC20, Ownable {
     constructor() ERC20("TestCoin", "TSK") {
-        _mint(msg.sender, 20000 * 10 ** decimals());
+        _mint(msg.sender, 20000 * 10**decimals());
+    }
+
+    function decimals() public view virtual override returns (uint8) {
+        return 6;
     }
 
     function mint(address to, uint256 amount) public onlyOwner {
